@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<div th:fragment="empty"></div>
+
+<div th:fragment="captcha" style="margin-bottom: 4px;">
+    <input id="captcha-id" name="captchaId" type="hidden">
+
+    <div class="field" style="margin-bottom: 0px;">
+        <img id="captcha-image">
+    </div>
+    <div class="field">
+        <input class="input" id="captcha" name="captchaText" th:placeholder="#{captcha}" autocomplete="off"
+               style="margin-bottom: 4px;" required>
+        <button type="button" id="captcha-refresh-button" class="button is-info colored" onclick="refreshCaptcha()">
+            <i class="fa fa-sync" id="captcha-refresh-icon"></i>
+        </button>
+    </div>
+</div>
+
+<div th:fragment="header" dir="ltr" id="header-logged-out" class="header">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/" id="navbar-text" th:text="#{app.name}"></a>
+        </div>
+
+        <div style="width: 100%; display: flex;">
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <a class="button is-info is-outlined" th:href="${@environment.getProperty('app.url.front-end')}" th:text="#{login}"> </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<footer class="footer" th:fragment="footer" id="footer">
+    <div class="container">
+        <div class="columns">
+            <div class="column flex-center">
+                <div class="button" onclick="openModal('lang-modal')" style="margin-top: -8px;">
+                    <i class="fas fa-globe" style="margin-right: 6px; margin-left: 6px;"></i>
+                    <span th:text="#{language}"></span>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="/privacy" th:text="#{privacy-policy}"></a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="/tos" th:text="#{tos}"></a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="/imprint" th:text="#{imprint}"></a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="/faq" th:text="#{faq}"></a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="/donate-list" th:text="#{donate}"></a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="has-text-centered">
+                    <a href="https://www.github.com/Alovoa/Alovoa/">
+                        <picture>
+                            <source srcset="/img/github-dark.svg" media="(prefers-color-scheme: dark)">
+                            <img src="/img/github.svg" style="height: 20px;">
+                        </picture>
+                    </a>
+                    <a href="https://www.reddit.com/r/Alovoa/"><img src="/img/r-icon.svg" style="height: 20px;"
+                                                                    alt="reddit"></a>
+                    <a href="https://twitter.com/alovoa_love"><img src="/img/t-icon.svg" style="height: 20px;"
+                                                                   alt="twitter"></a>
+                    <a href="https://mastodon.social/@alovoa_love"><img src="/img/m-icon.svg" style="height: 20px;"
+                                                                        alt="mastodon"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lang-modal" class="modal modal-fx-fadeInScale">
+        <div class="modal-background" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div style="margin: 8px;">
+                <div onclick="closeModal()" style="padding-bottom: 4px;"><i class="fa fa-times fa-2x"
+                                                                            style="cursor: pointer; color: white"></i>
+                </div>
+                <button class="button colored is-primary" value="?lang=en"
+                        onclick="onChangeLocal(this.value)">English
+                </button>
+                <button class="button colored is-primary" value="?lang=de"
+                        onclick="onChangeLocal(this.value)">Deutsch
+                </button>
+                <button class="button colored is-primary" value="?lang=es"
+                        onclick="onChangeLocal(this.value)">Español*
+                </button>
+                <button class="button colored is-primary" value="?lang=fr"
+                        onclick="onChangeLocal(this.value)">Français*
+                </button>
+                <button class="button colored is-primary" value="?lang=pt"
+                        onclick="onChangeLocal(this.value)">Português*
+                </button>
+                <button class="button colored is-primary" value="?lang=it"
+                        onclick="onChangeLocal(this.value)">Italiano*
+                </button>
+                <button class="button colored is-primary" value="?lang=nl"
+                        onclick="onChangeLocal(this.value)">Nederlands*
+                </button>
+                <button class="button colored is-primary" value="?lang=cz"
+                        onclick="onChangeLocal(this.value)">Čeština*
+                </button>
+                <button class="button colored is-primary" value="?lang=ru"
+                        onclick="onChangeLocal(this.value)">русский*
+                </button>
+                <button class="button colored is-primary" value="?lang=ja"
+                        onclick="onChangeLocal(this.value)">日本語*
+                </button>
+                <button class="button colored is-primary" value="?lang=zh"
+                        onclick="onChangeLocal(this.value)">中文*
+                </button>
+                <button class="button colored is-primary" value="?lang=ko"
+                        onclick="onChangeLocal(this.value)">한국어*
+                </button>
+                <button class="button colored is-primary" value="?lang=ar"
+                        onclick="onChangeLocal(this.value)">عربى*
+                </button>
+                <button class="button colored is-primary" value="?lang=tr"
+                        onclick="onChangeLocal(this.value)">Türkçe*
+                </button>
+                <button class="button colored is-primary" value="?lang=hu"
+                        onclick="onChangeLocal(this.value)">Magyar*
+                </button>
+                <div style="color: white"><span style="float:right; margin-right: 4px;">* beta</span></div>
+            </div>
+        </div>
+    </div>
+    <script>
+			function onChangeLocal(val) {
+				console.log(val);
+				if (val.includes('?lang=') && val.length == 8) {
+					window.location.search = val;
+				}
+			}
+    </script>
+</footer>
+
+<div th:fragment="search-users" class="user-search-div">
+
+    <div th:if="${#lists.isEmpty(dto.users)}"
+         style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding-top: 12px;">
+        <span th:text="#{no-users-found}"></span>
+    </div>
+
+    <div th:if="${dto.message != null}" id="search-message" th:text="${dto.message}" style="display: none;"></div>
+
+
+    <th:block th:each="user : ${dto.users}">
+        <div class="user-search-card" th:id="${user.idEncoded}">
+            <div class="swiper swiper-container" th:id="${user.idEncoded}">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide colored"
+                         style="background-color: #48c774; display: flex; align-items: center; justify-content: center">
+                        <i class="fa fa-thumbs-up fa-10x"></i>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card is-horizontal" style="width: 100%; height: 100%;">
+                            <div class="card-image" th:onclick="viewProfile([[${user.idEncoded}]])">
+                                <figure class="image">
+                                    <img th:src="${user.profilePicture}" class="profile-pic">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div th:onclick="viewProfile([[${user.idEncoded}]])">
+                                    <div class="content-background">
+                                        <div class="content">
+
+                                            <div style="display: flex;">
+                                                <div class="full-width" dir="ltr">
+                                                    <div class="left first-name" style="font-size: 2em"
+                                                         th:text="${user.firstName}"
+                                                         th:classappend="${user.gender.text == 'male' ? 'male' : user.gender.text == 'female' ? 'female' : 'other'}">
+                                                    </div>
+                                                    <div class="left"
+                                                         style="font-size: 1.5em; padding-top: 6px; display: flex; gap: 4px;">
+                                                        <div><span>,&nbsp;</span><span th:text="${user.age}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="font-size: 1.1em;" class="description"
+                                                 th:text="${user.description}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide colored"
+                         style="background-color: #f14668; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa fa-thumbs-down fa-10x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+</body>
+
+</html>

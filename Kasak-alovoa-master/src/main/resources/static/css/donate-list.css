@@ -1,0 +1,19 @@
+.container {
+	padding-bottom: 2rem;
+}
+
+#main-section .button svg {
+	color: white; 
+}
+
+.notification.is-success {
+	background-color: #757575;
+}
+
+.question-button {
+    display: block;
+}
+
+#main-section {
+	height: 100vh;
+}
